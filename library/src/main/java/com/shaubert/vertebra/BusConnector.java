@@ -14,7 +14,11 @@ public class BusConnector implements RSBus {
 
     @Override
     public void post(RSEvent event) {
-        eventBus.postSticky(event);
+        if (event instanceof TargetEvent) {
+            eventBus.postSticky(event);
+        } else {
+            eventBus.post(event);
+        }
     }
 
 }
