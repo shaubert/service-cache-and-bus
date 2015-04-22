@@ -13,7 +13,7 @@ public abstract class TargetRequest<T extends Response<T>, F> extends Request<T,
         super(in, responseClass);
 
         if (in != null) {
-            target = new ID(in);
+            target = in.readParcelable(ID.class.getClassLoader());
         }
     }
 
