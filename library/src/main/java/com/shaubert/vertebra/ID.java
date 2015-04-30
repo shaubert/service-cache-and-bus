@@ -10,33 +10,33 @@ import java.util.UUID;
 
 public class ID extends LifecycleBasedObject implements Parcelable {
 
-    private String value = UUID.randomUUID().toString();
-
-    public ID() {
-    }
+    private final String value;
 
     public ID(Bundle savedInstanceState) {
-        onRestoreInstanceState(savedInstanceState);
+        String id = null;
+        if (savedInstanceState != null) {
+            id = savedInstanceState.getString("__id");
+        }
+        if (TextUtils.isEmpty(id)) {
+            id = generateId();
+        }
+        value = id;
     }
 
     public ID(Parcel in) {
         if (in != null) {
             this.value = in.readString();
+        } else {
+            this.value = generateId();
         }
     }
 
-    public void regenerate() {
-        value = UUID.randomUUID().toString();
+    private String generateId() {
+        return UUID.randomUUID().toString();
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle stateBundle) {
-        if (stateBundle != null) {
-            String id = stateBundle.getString("__id");
-            if (!TextUtils.isEmpty(id)) {
-                value = id;
-            }
-        }
     }
 
     @Override
