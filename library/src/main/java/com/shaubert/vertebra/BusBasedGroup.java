@@ -1,5 +1,6 @@
 package com.shaubert.vertebra;
 
+import android.os.Bundle;
 import com.shaubert.lifecycle.objects.LifecycleObjectsGroup;
 import de.greenrobot.event.EventBus;
 
@@ -10,17 +11,32 @@ public class BusBasedGroup extends LifecycleObjectsGroup implements IDSource {
 
     public BusBasedGroup(EventBus bus) {
         this.bus = bus;
-        attachToLifecycle(id);
+    }
+
+    @Override
+    protected void onCreate(Bundle state) {
+        attachToLifecycle(id = new ID(state));
+        super.onCreate(state);
+    }
+
+    public EventBus getBus() {
+        return bus;
     }
 
     @Override
     public ID getID() {
+        if (id == null) {
+            throw new IllegalStateException("accessing ID before onCreate()");
+        }
         return id;
     }
 
     @Override
     protected void onResume() {
-        bus.registerSticky(this);
+        try {
+            bus.registerSticky(this);
+        } catch (Exception ignored) {
+        }
         super.onResume();
     }
 

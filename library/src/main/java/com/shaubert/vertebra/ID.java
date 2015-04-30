@@ -12,6 +12,10 @@ public class ID extends LifecycleBasedObject implements Parcelable {
 
     private final String value;
 
+    public ID() {
+        this((Parcel) null);
+    }
+
     public ID(Bundle savedInstanceState) {
         String id = null;
         if (savedInstanceState != null) {
