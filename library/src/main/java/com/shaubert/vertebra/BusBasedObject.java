@@ -45,4 +45,11 @@ public class BusBasedObject extends LifecycleBasedObject implements IDSource {
         super.onPause();
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (id != null) {
+            id.onSaveInstanceState(outState);
+        }
+    }
 }

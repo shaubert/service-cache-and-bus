@@ -15,7 +15,7 @@ public class BusBasedGroup extends LifecycleObjectsGroup implements IDSource {
 
     @Override
     protected void onCreate(Bundle state) {
-        attachToLifecycle(id = new ID(state));
+        id = new ID(state);
         super.onCreate(state);
     }
 
@@ -46,4 +46,11 @@ public class BusBasedGroup extends LifecycleObjectsGroup implements IDSource {
         super.onPause();
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (id != null) {
+            id.onSaveInstanceState(outState);
+        }
+    }
 }

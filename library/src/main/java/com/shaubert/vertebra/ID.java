@@ -4,26 +4,19 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import com.shaubert.lifecycle.objects.LifecycleBasedObject;
 
 import java.util.UUID;
 
-public class ID extends LifecycleBasedObject implements Parcelable {
+public class ID implements Parcelable {
 
     private final String value;
 
-    public ID() {
-        this((Parcel) null);
-    }
-
-    public ID(Bundle savedInstanceState) {
+    public ID(@Nullable Bundle savedInstanceState) {
         String id = null;
         if (savedInstanceState != null) {
-            Bundle bundle = savedInstanceState.getBundle(getBundleTag());
-            if (bundle != null) {
-                id = bundle.getString("__id");
-            }
+            id = savedInstanceState.getString("__id");
         }
         if (TextUtils.isEmpty(id)) {
             id = generateId();
@@ -31,7 +24,7 @@ public class ID extends LifecycleBasedObject implements Parcelable {
         value = id;
     }
 
-    public ID(Parcel in) {
+    protected ID(Parcel in) {
         if (in != null) {
             this.value = in.readString();
         } else {
@@ -43,8 +36,7 @@ public class ID extends LifecycleBasedObject implements Parcelable {
         return UUID.randomUUID().toString();
     }
 
-    @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         outState.putString("__id", value);
     }
 
