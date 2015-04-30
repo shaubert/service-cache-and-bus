@@ -3,6 +3,7 @@ package com.shaubert.vertebra;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import com.shaubert.lifecycle.objects.LifecycleBasedObject;
 
@@ -19,7 +20,10 @@ public class ID extends LifecycleBasedObject implements Parcelable {
     public ID(Bundle savedInstanceState) {
         String id = null;
         if (savedInstanceState != null) {
-            id = savedInstanceState.getString("__id");
+            Bundle bundle = savedInstanceState.getBundle(getBundleTag());
+            if (bundle != null) {
+                id = bundle.getString("__id");
+            }
         }
         if (TextUtils.isEmpty(id)) {
             id = generateId();
@@ -40,11 +44,7 @@ public class ID extends LifecycleBasedObject implements Parcelable {
     }
 
     @Override
-    protected void onRestoreInstanceState(Bundle stateBundle) {
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
         outState.putString("__id", value);
     }
 
