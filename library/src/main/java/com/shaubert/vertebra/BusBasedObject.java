@@ -1,6 +1,7 @@
 package com.shaubert.vertebra;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import com.shaubert.lifecycle.objects.LifecycleBasedObject;
 import de.greenrobot.event.EventBus;
 
@@ -40,13 +41,13 @@ public class BusBasedObject extends LifecycleBasedObject implements IDSource {
     }
 
     @Override
-    protected void onPause() {
+    protected void onPause(boolean isFinishing) {
         bus.unregister(this);
-        super.onPause();
+        super.onPause(isFinishing);
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         if (id != null) {
             id.onSaveInstanceState(outState);
