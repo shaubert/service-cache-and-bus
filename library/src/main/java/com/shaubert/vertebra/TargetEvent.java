@@ -41,7 +41,7 @@ public class TargetEvent<OK extends Response<OK>, FAIL> extends RSEvent<OK, FAIL
         return isHandled(idSource.getID());
     }
 
-    private boolean isHandled(ID id) {
+    public boolean isHandled(ID id) {
         return handledIds.contains(id.toString());
     }
 
