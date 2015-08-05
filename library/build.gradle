@@ -5,7 +5,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.shaubert.network.service:library:1.0.5'
+    compile 'com.shaubert.network.service:library:1.0.6'
     compile 'com.shaubert.cache:library:1.0.4'
     compile 'com.shaubert.lifecycle.objects:library:1.2'
     compile 'de.greenrobot:eventbus:2.4.0'
