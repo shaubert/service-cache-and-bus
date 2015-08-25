@@ -21,7 +21,26 @@ public class CacheConnector implements RSCache {
         Response success = event.getSuccess();
 
         Entry entry = getEntry(request);
-        entry.setState(mapEventStatusToDataState(event.getStatus()));
+
+        switch (event.getStatus()) {
+            case QUEUED:
+            case RUNNING:
+                entry.addMark(Entry.UPDATING_MARK);
+                break;
+            case SUCCESS:
+                entry.removeMark(Entry.UPDATING_MARK);
+                entry.removeMark(Entry.FAILURE_MARK);
+                entry.removeMark(Entry.DIRTY_MARK);
+                break;
+            case CANCELLED:
+                entry.removeMark(Entry.UPDATING_MARK);
+                break;
+            case FAILURE:
+                entry.removeMark(Entry.UPDATING_MARK);
+                entry.addMark(Entry.FAILURE_MARK);
+                break;
+        }
+
         if (success != null) {
             entry.setValue(success);
         }
@@ -39,21 +58,6 @@ public class CacheConnector implements RSCache {
             ((AsyncEntry) entry).getValue(new DataCallbackAdapter(request, callback));
         } else {
             callback.onResultFromCache(request, (Response) entry.getValue());
-        }
-    }
-
-    public DataState mapEventStatusToDataState(RSEvent.Status status) {
-        switch (status) {
-            case SUCCESS:
-                return DataState.IDLE;
-            case RUNNING:
-                return DataState.UPDATE;
-            case CANCELLED:
-                return DataState.IDLE;
-            case FAILURE:
-                return DataState.FAIL;
-            default:
-                throw new IllegalArgumentException("unable to map " + status);
         }
     }
 
