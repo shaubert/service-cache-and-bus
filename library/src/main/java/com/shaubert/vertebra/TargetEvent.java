@@ -39,7 +39,17 @@ public class TargetEvent<OK extends Response<OK>, FAIL> extends RSEvent<OK, FAIL
 
     public boolean mine(ID id) {
         ID target = getTarget();
-        return target != null && target.equals(id) && !isHandled(id);
+        return target != null && target.equals(id);
+    }
+
+    public boolean mineAndNotHandled(IDSource idSource) {
+        return mineAndNotHandled(idSource != null ? idSource.getID() : null);
+    }
+
+    public boolean mineAndNotHandled(ID id) {
+        if (id == null) return false;
+
+        return mine(id) && !isHandled(id);
     }
 
     public void setHandled(IDSource idSource) {
