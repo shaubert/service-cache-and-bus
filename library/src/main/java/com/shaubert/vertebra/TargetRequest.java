@@ -5,7 +5,7 @@ import com.shaubert.network.service.RSEvent;
 import com.shaubert.network.service.Request;
 import com.shaubert.network.service.Response;
 
-public abstract class TargetRequest<T extends Response<T>, F> extends Request<T, F> {
+public abstract class TargetRequest<T extends Response, F> extends Request<T, F> {
 
     private ID target;
 

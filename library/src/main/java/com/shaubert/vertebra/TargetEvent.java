@@ -7,7 +7,7 @@ import com.shaubert.network.service.Response;
 import java.util.HashSet;
 import java.util.Set;
 
-public class TargetEvent<OK extends Response<OK>, FAIL> extends RSEvent<OK, FAIL> {
+public class TargetEvent<OK extends Response, FAIL> extends RSEvent<OK, FAIL> {
 
     private static final ID NOT_SET_ID = new ID((Bundle) null);
 
