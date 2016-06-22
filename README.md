@@ -12,5 +12,5 @@ Connects together:
         maven{url "https://github.com/shaubert/maven-repo/raw/master/releases"}
     }
     dependencies {
-        compile 'com.shaubert.vertebra:library:1.4.1'
+        compile 'com.shaubert.vertebra:library:1.5'
     }
